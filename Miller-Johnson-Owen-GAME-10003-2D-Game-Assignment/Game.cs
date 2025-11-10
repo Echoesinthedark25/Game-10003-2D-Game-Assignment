@@ -27,7 +27,7 @@ namespace MohawkGame2D
         /// </summary>
         public void Update()
         {
-            Window.ClearBackground(Color.Gray);
+            Window.ClearBackground(Color.White);
         }
     }
 
