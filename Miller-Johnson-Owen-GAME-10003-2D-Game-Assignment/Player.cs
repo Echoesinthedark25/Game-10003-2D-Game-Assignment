@@ -1,7 +1,9 @@
 ﻿using Raylib_cs;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -22,9 +24,16 @@ namespace MohawkGame2D
         int xBound = 200;
         int yBound = 200;
 
-        int hp = 0;
+        public int hp = 0;
 
         public void Setup()
+        {
+           
+            hp = 1;
+        }
+
+        //Get collision for player
+        public void Update(Enemies[] enemies)
         {
             mouseX = Input.GetMouseX();
             mouseY = Input.GetMouseY();
@@ -38,15 +47,14 @@ namespace MohawkGame2D
             }
 
             Draw.FillColor = Color.Green;
-            Draw.Circle(circleX, circleY, 20);
 
-            hp = 1;
-        }
+            // Stop drawing player if hp is 0
+            if (hp > 0)
+            {
+                Draw.Circle(circleX, circleY, 10);
+            }
 
-        //Get collision for player
-        public void Update(Enemies[] enemies)
-        {
-            
+
             ProcessCollision(enemies);
         }
 
@@ -55,6 +63,15 @@ namespace MohawkGame2D
             for (int i = 0; i < enemies.Length; i++)
             {
                 Enemies enemy = enemies[i];
+
+                // check if player collides with enemy
+                bool isPointInCircle = Vector2.Distance(new Vector2(circleX, circleY), enemy.position) <= enemy.size;
+
+                // if collide reduce hp
+                if (isPointInCircle)
+                {
+                    hp--;
+                }
                 
             }
         }

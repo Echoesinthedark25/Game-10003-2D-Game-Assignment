@@ -20,7 +20,10 @@ namespace MohawkGame2D
         int xBound = 200;
         int yBound = 200;
 
-        Enemies[] enemies = new Enemies[100];
+        Enemies[] enemies = new Enemies[35];
+        Player player;
+
+        float timer = 0;
 
         /// <summary>
         ///     Setup runs once before the game loop begins.
@@ -29,6 +32,9 @@ namespace MohawkGame2D
         {
             Window.SetTitle("Dodge!!!");
             Window.SetSize(600, 600);
+
+            player = new Player();
+            player.Setup();
 
             circleX = Window.Width / 2;
             circleY = Window.Height / 2;
@@ -45,30 +51,23 @@ namespace MohawkGame2D
         /// </summary>
         public void Update()
         {
+            // Stop timer if hp is 0
+            if (player.hp > 0)
+                timer += Time.DeltaTime;
+
             Window.ClearBackground(Color.White);
 
-            //Create player and boundary for player
-            mouseX = Input.GetMouseX();
-            mouseY = Input.GetMouseY();
-
-            isMouseInBoundsX = mouseX > xBound && mouseX < Window.Width - xBound;
-            isMouseInBoundsY = mouseY > yBound && mouseY < Window.Height - yBound;
-
-            if (isMouseInBoundsX && isMouseInBoundsY)
-            {
-                circleX = Input.GetMouseX();
-                circleY = Input.GetMouseY();
-            }
-
-            Draw.FillColor = Color.Green;
-            Draw.Circle(circleX, circleY, 20);
+            player.Update(enemies);
 
             //Update enemies
             for (int i = 0; i < enemies.Length; i++)
             {
                 enemies[i].Update();
             }
+            Console.WriteLine(timer);
 
+            //Draw Timer
+            Text.Draw($"Timer: {(int)timer}", 80, Window.Height - 80);
         }
 
      
