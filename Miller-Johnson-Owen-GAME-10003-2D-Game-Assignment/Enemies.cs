@@ -10,6 +10,7 @@ namespace MohawkGame2D
     public class Enemies
     {
         Vector2 position;
+        
 
         public void Setup()
         {
@@ -24,7 +25,7 @@ namespace MohawkGame2D
         {
             Draw.LineSize = 2;
             Draw.LineColor = Color.Black;
-            Draw.FillColor = Color.Gray;
+            Draw.FillColor = Color.Red;
             Draw.Circle(position, 7.0f);
             
         }
