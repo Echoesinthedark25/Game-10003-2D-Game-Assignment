@@ -13,10 +13,14 @@ namespace MohawkGame2D
     {
         // Place your variables here:
 
-        bool mouseIsInBounds = true;
-        int circleX, circleY;
+        float circleX, circleY;
+        float mouseX, mouseY;
+        bool isMouseInBoundsX = false;
+        bool isMouseInBoundsY = false;
+        int xBound = 200;
+        int yBound = 200;
 
-        Enemies[] enemies = new Enemies[20];
+        Enemies[] enemies = new Enemies[100];
 
         /// <summary>
         ///     Setup runs once before the game loop begins.
@@ -24,7 +28,7 @@ namespace MohawkGame2D
         public void Setup()
         {
             Window.SetTitle("Dodge!!!");
-            Window.SetSize(800, 600);
+            Window.SetSize(600, 600);
 
             circleX = Window.Width / 2;
             circleY = Window.Height / 2;
@@ -43,23 +47,31 @@ namespace MohawkGame2D
         {
             Window.ClearBackground(Color.White);
 
-            DrawPlayer();
-            
-        }
+            //Create player and boundary for player
+            mouseX = Input.GetMouseX();
+            mouseY = Input.GetMouseY();
 
-        //Create player object
-        public void DrawPlayer()
-        {
-            Draw.LineSize = 1;
-            Draw.LineColor = Color.Black;
-            Draw.FillColor = Color.Green;
-            Draw.Circle(Input.GetMouseX(), Input.GetMouseY(), 25);
+            isMouseInBoundsX = mouseX > xBound && mouseX < Window.Width - xBound;
+            isMouseInBoundsY = mouseY > yBound && mouseY < Window.Height - yBound;
 
-            if (mouseIsInBounds)
+            if (isMouseInBoundsX && isMouseInBoundsY)
             {
-                
+                circleX = Input.GetMouseX();
+                circleY = Input.GetMouseY();
             }
+
+            Draw.FillColor = Color.Green;
+            Draw.Circle(circleX, circleY, 20);
+
+            //Update enemies
+            for (int i = 0; i < enemies.Length; i++)
+            {
+                enemies[i].Update();
+            }
+
         }
+
+     
     }
 
 }
